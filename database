@@ -1,0 +1,44 @@
+create table stage(
+s_id number(3) primary key,
+name nvarchar2(20));
+
+
+create table class_num(
+c_id number(3),
+class_name nvarchar2(20),
+s_id number(3) unique,
+CONSTRAINT class_st_pk PRIMARY KEY(c_id,s_id),
+CONSTRAINT class_st_fk FOREIGN KEY (s_id)
+REFERENCES stage(s_id));
+
+
+
+create table student_inf(
+stud_id number(3) unique,
+class_id number(3) unique,
+first_name nvarchar2(20) not null,
+last_name nvarchar2(20) not null,
+age number(3) not null,
+gender nvarchar2(10) not null,
+phone number(20),
+CONSTRAINT stud_cl_pk PRIMARY KEY(stud_id,class_id ),
+CONSTRAINT stud_cl_fk FOREIGN KEY (class_id)
+REFERENCES class_num(s_id));
+
+
+
+create table subject(
+sub_name nvarchar2(20) primary key,
+teacher_name nvarchar2(20)not null);
+
+
+
+
+create table mark(
+stud_id number(3),
+sub_name nvarchar2(20),
+CONSTRAINT mark_stu_sub_pk PRIMARY KEY(stud_id,sub_name),
+CONSTRAINT mark_stu_fk FOREIGN KEY (stud_id)
+REFERENCES student_inf(stud_id),
+CONSTRAINT mark_sub_fk FOREIGN KEY (sub_name)
+REFERENCES subject(sub_name ));
